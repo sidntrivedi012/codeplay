@@ -1,9 +1,4 @@
-// input->tokenizer = tokens
-// tokens -> parser = ast
-// ast-> transformer = newast
-// newAST->codegenerator=output
-
-//tokenizer function
+// tokenizer function for lexical analysis
 
 function tokenizer(input) {
   let tokens = [];
@@ -77,12 +72,4 @@ function tokenizer(input) {
   return tokens;
 }
 
-function compiler(input) {
-  let tokens = tokenizer(input);
-  console.log(tokens);
-}
-function main() {
-  input = "(add 2 3)";
-  compiler(input);
-}
-main();
+module.exports = { tokenizer };
