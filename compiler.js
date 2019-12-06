@@ -12,10 +12,7 @@ function compiler() {
   let tokens = tk.tokenizer(input);
   let ast = prs.parser(tokens);
   let newast = transform.transformer(ast);
-  console.log(newast);
-
   let output = cg.codegenerator(newast);
-  // console.log(tokens);
   console.log(output);
 }
 compiler();
