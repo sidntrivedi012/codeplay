@@ -6,25 +6,26 @@ function traverser(ast, visitor) {
   }
   function traverseNode(node, parent) {
     let methods = visitor[node.type];
-  }
-  if (methods && methods.enter) {
-    methods.enter(node, parent);
-  }
-  switch (node.type) {
-    case "Program":
-      traverseArray(node.body, node);
-      break;
-    case "CallExpression":
-      traverseArray(node.params, node);
-      break;
-    case "NumberLiteral":
-    case "StringLiteral":
-      break;
-    default:
-      throw new Error(node.type);
-  }
-  if (methods && methods.exit) {
-    methods.exit(node, parent);
+
+    if (methods && methods.enter) {
+      methods.enter(node, parent);
+    }
+    switch (node.type) {
+      case "Program":
+        traverseArray(node.body, node);
+        break;
+      case "CallExpression":
+        traverseArray(node.params, node);
+        break;
+      case "NumberLiteral":
+      case "StringLiteral":
+        break;
+      default:
+        throw new Error(node.type);
+    }
+    if (methods && methods.exit) {
+      methods.exit(node, parent);
+    }
   }
   traverseNode(ast, null);
 }
@@ -59,19 +60,19 @@ function transformer(ast) {
             type: "Identifier",
             name: node.name
           },
-          arguments=[]
+          arguments: []
         };
-        node._context=expression.arguments;
-        if(parent.type!=='CallExpression'){
-            expression={
-                type:'ExpressionStatement',
-                expression:expression
-            }
+        node._context = expression.arguments;
+        if (parent.type !== "CallExpression") {
+          expression = {
+            type: "ExpressionStatement",
+            expression: expression
+          };
         }
-            parent._context.push(expression);
+        parent._context.push(expression);
       }
     }
   });
-  return newAst
+  return newAst;
 }
-module.exports = { traverser, transformer };
+module.exports = { transformer };
